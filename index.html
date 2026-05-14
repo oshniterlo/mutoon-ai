@@ -1,0 +1,1667 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>Mutoon.ai · المقدمة الآجرومية</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400;1,700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #fbf6ea;
+    --paper-edge: #f0e8d4;
+    --ink: #2a2419;
+    --ink-soft: #4a4030;
+    --ink-faint: #8a7d65;
+    --emerald: #2d5a3d;
+    --emerald-deep: #1f3f2a;
+    --emerald-light: #4a7a5c;
+    --gold: #b8893d;
+    --gold-soft: #d4a85a;
+    --crimson: #8b2e2e;
+    --crimson-soft: #c45a5a;
+    --amber: #b87a1a;
+    --amber-soft: #e0a050;
+    --rule: rgba(74, 64, 48, 0.22);
+    --rule-faint: rgba(74, 64, 48, 0.12);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; overflow-x: hidden; }
+
+  body {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    background: #ddd2b8;
+    color: var(--ink);
+    -webkit-font-smoothing: antialiased;
+    -webkit-tap-highlight-color: transparent;
+    background-image: repeating-linear-gradient(45deg, transparent 0, transparent 2px, rgba(0,0,0,0.015) 2px, rgba(0,0,0,0.015) 4px);
+  }
+
+  .app {
+    max-width: 720px;
+    margin: 0 auto;
+    min-height: 100vh;
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    background: var(--paper);
+    box-shadow: 0 0 0 1px var(--paper-edge), 0 4px 24px rgba(0,0,0,0.08), 0 20px 60px rgba(0,0,0,0.12);
+    position: relative;
+  }
+
+  .app::before {
+    content: '';
+    position: absolute; inset: 0;
+    pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.6'/%3E%3C/svg%3E");
+    opacity: 0.025;
+    z-index: 1;
+  }
+
+  .running-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px 32px 8px;
+    direction: rtl;
+    font-family: 'Amiri', serif;
+    font-size: 13px;
+    color: var(--ink-soft);
+    letter-spacing: 0.02em;
+    position: relative; z-index: 2;
+  }
+
+  .running-header::after {
+    content: '';
+    position: absolute;
+    left: 32px; right: 32px; bottom: 0;
+    height: 1px; background: var(--ink-soft);
+    opacity: 0.35;
+  }
+
+  .top-bar {
+    padding: 16px 32px 12px;
+    display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 12px;
+    border-bottom: 1px solid var(--rule-faint);
+    direction: ltr;
+    position: relative; z-index: 2;
+  }
+
+  .brand { font-family: 'Cormorant Garamond', serif; font-weight: 500; font-size: 22px; letter-spacing: 0.02em; color: var(--ink); line-height: 1; }
+  .brand .dot { color: var(--emerald); font-style: italic; }
+
+  .brand-tag {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic; font-size: 12px; color: var(--ink-faint);
+    letter-spacing: 0.06em; text-transform: uppercase;
+    margin-top: 2px;
+  }
+
+  .ai-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: var(--emerald-deep);
+    color: var(--paper);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 3px 8px 4px;
+    border-radius: 1px;
+    margin-left: 6px;
+    vertical-align: 2px;
+  }
+
+  .ai-badge .pulse {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--gold-soft);
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 0.4; }
+    50% { opacity: 1; }
+  }
+
+  .ai-badge.offline { background: var(--ink-faint); }
+  .ai-badge.offline .pulse { background: var(--crimson-soft); animation: none; }
+
+  .controls-right { display: flex; gap: 10px; align-items: center; }
+
+  .chapter-select {
+    background: transparent;
+    border: 1px solid var(--rule);
+    color: var(--ink);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 14px;
+    padding: 7px 28px 7px 12px;
+    border-radius: 1px;
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath fill='%234a4030' d='M5 6L0 0h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+  }
+
+  .mode-toggle {
+    display: inline-flex;
+    background: transparent;
+    border: 1px solid var(--rule);
+    border-radius: 1px;
+    padding: 2px;
+    font-size: 12px;
+    font-family: 'Cormorant Garamond', serif;
+  }
+
+  .mode-toggle button {
+    background: transparent; border: none;
+    padding: 6px 11px;
+    font-family: inherit; font-size: inherit;
+    color: var(--ink-soft); cursor: pointer;
+    border-radius: 1px; letter-spacing: 0.04em;
+    transition: all 0.2s;
+  }
+
+  .mode-toggle button.active { background: var(--ink); color: var(--paper); }
+
+  .matn-container {
+    flex: 1;
+    padding: 20px 44px 28px;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    position: relative; z-index: 2;
+  }
+
+  .chapter-heading {
+    text-align: center;
+    margin: 24px 0 28px;
+    padding-bottom: 16px;
+    position: relative;
+  }
+
+  .chapter-heading::after {
+    content: '';
+    position: absolute; left: 50%; bottom: 0;
+    transform: translateX(-50%);
+    width: 80px; height: 1px;
+    background: var(--gold); opacity: 0.6;
+  }
+
+  .chapter-bab-ar {
+    font-family: 'Amiri', serif;
+    font-size: 28px; font-weight: 700;
+    color: var(--emerald-deep);
+    letter-spacing: 0.01em; line-height: 1.2;
+  }
+
+  .chapter-en {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic; font-size: 13px;
+    color: var(--ink-faint);
+    direction: ltr;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    margin-top: 8px;
+  }
+
+  .matn-body {
+    font-family: 'Amiri', serif;
+    font-size: 26px; line-height: 2.3;
+    color: var(--ink);
+    direction: rtl;
+  }
+
+  .paragraph {
+    margin-bottom: 14px;
+    text-align: justify;
+    text-justify: inter-word;
+    text-indent: 1.5em;
+    transition: opacity 0.4s ease;
+  }
+
+  .paragraph:first-of-type { text-indent: 0; }
+  .paragraph.is-past { opacity: 0.45; }
+  .paragraph.is-current { position: relative; }
+
+  .paragraph.is-current::before {
+    content: '';
+    position: absolute;
+    right: -22px; top: 12px; bottom: 12px;
+    width: 2px; background: var(--emerald);
+    border-radius: 2px; opacity: 0.6;
+  }
+
+  .token.topic-word { color: var(--emerald-deep); font-weight: 700; }
+
+  .token {
+    display: inline;
+    margin: 0; padding: 0 1px;
+    border-radius: 2px;
+    transition: color 0.3s ease, background-color 0.4s ease;
+    cursor: pointer;
+  }
+
+  .token.expected {
+    background-color: rgba(45, 90, 61, 0.10);
+    box-shadow: inset 0 -2px 0 var(--emerald-light);
+    animation: pulseExpected 1.8s ease-in-out infinite;
+  }
+
+  @keyframes pulseExpected {
+    0%, 100% { background-color: rgba(45, 90, 61, 0.06); }
+    50% { background-color: rgba(45, 90, 61, 0.14); }
+  }
+
+  .token.correct {
+    color: var(--emerald);
+    background-color: rgba(45, 90, 61, 0.07);
+    animation: flashCorrect 0.6s ease-out;
+  }
+
+  .token.correct.topic-word { color: var(--emerald-deep); background-color: rgba(45, 90, 61, 0.10); }
+
+  @keyframes flashCorrect {
+    0% { background-color: rgba(45, 90, 61, 0.32); }
+    100% { background-color: rgba(45, 90, 61, 0.07); }
+  }
+
+  .token.soft-error {
+    color: var(--amber);
+    background-color: rgba(184, 122, 26, 0.09);
+    text-decoration: underline;
+    text-decoration-color: var(--amber-soft);
+    text-decoration-thickness: 1px;
+    text-underline-offset: 4px;
+  }
+
+  .token.hard-error {
+    color: var(--crimson);
+    background-color: rgba(139, 46, 46, 0.07);
+    text-decoration: underline wavy var(--crimson-soft);
+    text-decoration-thickness: 1px;
+    text-underline-offset: 4px;
+  }
+
+  .token.skipped {
+    color: var(--crimson-soft);
+    text-decoration: line-through;
+    text-decoration-color: var(--crimson-soft);
+    opacity: 0.7;
+  }
+
+  .section-divider {
+    text-align: center;
+    margin: 32px 0 8px;
+    color: var(--gold);
+    font-size: 18px;
+    direction: ltr;
+  }
+
+  .section-divider span { display: inline-block; margin: 0 0.6em; }
+
+  .footer-bar {
+    border-top: 1px solid var(--rule);
+    padding: 14px 32px 18px;
+    direction: ltr;
+    background: linear-gradient(180deg, transparent 0%, rgba(240,232,212,0.4) 100%);
+    position: relative; z-index: 2;
+  }
+
+  .interim-display {
+    font-family: 'Amiri', serif;
+    font-size: 14px;
+    color: var(--ink-faint);
+    text-align: center;
+    min-height: 18px;
+    margin-bottom: 8px;
+    direction: rtl;
+    letter-spacing: 0.02em;
+    opacity: 0.7;
+    transition: opacity 0.3s;
+    font-style: italic;
+  }
+
+  .interim-display:empty::before { content: '·'; opacity: 0.25; }
+
+  .mic-row { display: flex; align-items: center; justify-content: center; gap: 14px; }
+
+  .mic-btn {
+    width: 64px; height: 64px;
+    border-radius: 50%;
+    background: var(--ink); color: var(--paper);
+    border: none; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 3px 12px rgba(42,36,25,0.25), inset 0 0 0 2px var(--paper), inset 0 0 0 3px var(--gold);
+    transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+    flex-shrink: 0;
+  }
+
+  .mic-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+  .mic-btn:hover:not(:disabled) { transform: translateY(-1px); }
+  .mic-btn:active:not(:disabled) { transform: translateY(1px); }
+
+  .mic-btn.recording {
+    background: var(--crimson);
+    animation: recordPulse 1.6s ease-in-out infinite;
+  }
+
+  @keyframes recordPulse {
+    0%, 100% { box-shadow: 0 3px 12px rgba(139,46,46,0.4), inset 0 0 0 2px var(--paper), inset 0 0 0 3px var(--gold), 0 0 0 0 rgba(139,46,46,0.4); }
+    50% { box-shadow: 0 3px 12px rgba(139,46,46,0.4), inset 0 0 0 2px var(--paper), inset 0 0 0 3px var(--gold), 0 0 0 12px rgba(139,46,46,0); }
+  }
+
+  .mic-icon { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+
+  .secondary-btn {
+    background: transparent;
+    border: 1px solid var(--rule);
+    color: var(--ink-soft);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 9px 13px;
+    cursor: pointer;
+    border-radius: 1px;
+    transition: all 0.2s;
+  }
+
+  .secondary-btn:hover { background: var(--paper-edge); border-color: var(--ink-faint); }
+
+  .status {
+    text-align: center;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 13px;
+    color: var(--ink-faint);
+    margin-top: 10px;
+    letter-spacing: 0.04em;
+    min-height: 16px;
+  }
+
+  .colophon {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 32px 14px;
+    border-top: 1px solid var(--rule-faint);
+    background: var(--paper-edge);
+    direction: ltr;
+    position: relative; z-index: 2;
+  }
+
+  .colo-stat { text-align: center; flex: 1; }
+  .colo-stat:not(:last-child) { border-right: 1px dotted var(--rule); }
+
+  .colo-value {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 17px; font-weight: 600;
+    color: var(--ink); line-height: 1;
+  }
+
+  .colo-value .pct { font-size: 12px; opacity: 0.6; }
+
+  .colo-label {
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--ink-faint);
+    margin-top: 4px;
+    font-family: 'Cormorant Garamond', serif;
+  }
+
+  /* Modal styles */
+  .overlay {
+    position: fixed; inset: 0;
+    background: rgba(42,36,25,0.55);
+    display: flex; align-items: center; justify-content: center;
+    z-index: 100; padding: 24px;
+    direction: ltr;
+    backdrop-filter: blur(4px);
+    animation: fadeIn 0.3s;
+  }
+
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+  .modal {
+    background: var(--paper);
+    border: 1px solid var(--gold);
+    border-radius: 1px;
+    padding: 32px 28px 24px;
+    max-width: 460px; width: 100%;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    position: relative;
+    animation: slideUp 0.4s cubic-bezier(0.16,1,0.3,1);
+    max-height: 90vh; overflow-y: auto;
+  }
+
+  @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+  .modal h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 500; font-size: 22px;
+    color: var(--ink);
+    margin-bottom: 4px;
+    text-align: center;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .modal .subtitle-ar {
+    font-family: 'Amiri', serif;
+    text-align: center;
+    color: var(--emerald);
+    font-size: 18px;
+    margin-bottom: 18px;
+    direction: rtl;
+  }
+
+  .modal-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin: 16px 0;
+    padding: 14px 0;
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .modal-stat { text-align: center; }
+  .modal-stat-value { font-family: 'Cormorant Garamond', serif; font-size: 26px; font-weight: 600; line-height: 1; }
+  .modal-stat.green .modal-stat-value { color: var(--emerald); }
+  .modal-stat.amber .modal-stat-value { color: var(--amber); }
+  .modal-stat.crimson .modal-stat-value { color: var(--crimson); }
+  .modal-stat-label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--ink-faint); margin-top: 6px; }
+  .modal-acc { text-align: center; font-size: 17px; color: var(--emerald-deep); font-style: italic; margin: 4px 0 4px; }
+  .modal-acc strong { font-style: normal; font-weight: 600; }
+
+  .modal-btn {
+    width: 100%;
+    padding: 11px;
+    background: var(--ink); color: var(--paper);
+    border: none;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 13px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    cursor: pointer;
+    border-radius: 1px;
+    margin-top: 8px;
+  }
+
+  .modal-btn.outline { background: transparent; color: var(--ink); border: 1px solid var(--ink); }
+  .modal-close { position: absolute; top: 10px; right: 12px; background: none; border: none; font-size: 22px; color: var(--ink-faint); cursor: pointer; width: 32px; height: 32px; }
+
+  .adab-note {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 12px;
+    color: var(--ink-faint);
+    text-align: center;
+    margin-top: 14px;
+    padding-top: 14px;
+    border-top: 1px dotted var(--rule);
+    line-height: 1.5;
+  }
+
+  .stumble-list { margin: 12px 0; }
+  .stumble-label { font-family: 'Cormorant Garamond', serif; font-size: 11px; color: var(--ink-faint); text-align: center; letter-spacing: 0.12em; text-transform: uppercase; margin: 16px 0 6px; }
+  .stumble-item { display: flex; justify-content: space-between; align-items: center; padding: 7px 0; border-bottom: 1px dotted var(--rule); direction: rtl; }
+  .stumble-item:last-child { border-bottom: none; }
+  .stumble-word { font-family: 'Amiri', serif; font-size: 22px; color: var(--ink); }
+  .stumble-count { font-family: 'Cormorant Garamond', serif; font-size: 12px; color: var(--crimson); direction: ltr; font-style: italic; }
+
+  .browser-warn {
+    background: rgba(139,46,46,0.06);
+    border-top: 1px solid var(--crimson-soft);
+    border-bottom: 1px solid var(--crimson-soft);
+    padding: 10px 16px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 13px;
+    font-style: italic;
+    color: var(--crimson);
+    direction: ltr;
+    text-align: center;
+    z-index: 2;
+    position: relative;
+    display: flex; justify-content: center; align-items: center;
+  }
+
+  .latency-pill {
+    display: inline-block;
+    background: var(--paper-edge);
+    border: 1px solid var(--rule);
+    color: var(--ink-faint);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    padding: 2px 7px;
+    border-radius: 1px;
+    margin-left: 8px;
+    vertical-align: 2px;
+  }
+
+  @media (max-width: 600px) {
+    body { background: var(--paper); }
+    .app { box-shadow: none; }
+    .running-header { padding: 12px 22px 6px; font-size: 12px; }
+    .running-header::after { left: 22px; right: 22px; }
+    .top-bar { padding: 12px 22px 10px; }
+    .brand { font-size: 19px; }
+    .matn-container { padding: 16px 26px 22px; }
+    .chapter-bab-ar { font-size: 24px; }
+    .matn-body { font-size: 23px; line-height: 2.2; }
+    .paragraph.is-current::before { right: -16px; }
+    .footer-bar { padding: 12px 22px 16px; }
+    .colophon { padding: 8px 22px 12px; }
+    .mic-btn { width: 60px; height: 60px; }
+  }
+
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 3px; }
+</style>
+</head>
+<body>
+
+<div class="app">
+
+  <div class="running-header">
+    <span class="page-num" id="pageNum">٣</span>
+    <span class="book-name">المُقَدِّمَةُ الآجُرُّومِيَّةُ</span>
+  </div>
+
+  <div class="top-bar">
+    <div>
+      <div class="brand">
+        Mutoon<span class="dot">.</span>ai
+        <span class="ai-badge" id="aiBadge"><span class="pulse"></span><span id="aiBadgeText">Connecting</span></span>
+      </div>
+      <div class="brand-tag">Streaming CTC · Word-by-word</div>
+    </div>
+    <div class="controls-right">
+      <select id="chapterSelect" class="chapter-select"></select>
+      <div class="mode-toggle">
+        <button data-mode="sakin" class="active">Sākin</button>
+        <button data-mode="irab">I'rāb</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="browserWarn" class="browser-warn" style="display:none;"></div>
+
+  <div class="matn-container" id="matnContainer">
+    <div class="chapter-heading">
+      <div class="chapter-bab-ar" id="chapterBab"></div>
+      <div class="chapter-en" id="chapterEn"></div>
+    </div>
+    <div class="matn-body" id="matnBody"></div>
+    <div class="section-divider"><span>❖</span><span>❖</span><span>❖</span></div>
+  </div>
+
+  <div class="footer-bar">
+    <div class="interim-display" id="interimDisplay"></div>
+    <div class="mic-row">
+      <button id="resetBtn" class="secondary-btn">Reset</button>
+      <button id="micBtn" class="mic-btn" aria-label="Start recitation" disabled>
+        <svg class="mic-icon" viewBox="0 0 24 24">
+          <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/>
+          <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+          <line x1="12" y1="19" x2="12" y2="22"/>
+          <line x1="8" y1="22" x2="16" y2="22"/>
+        </svg>
+      </button>
+      <button id="finishBtn" class="secondary-btn">Finish</button>
+    </div>
+    <div class="status" id="status">Connecting to AI server…</div>
+  </div>
+
+  <div class="colophon">
+    <div class="colo-stat">
+      <div class="colo-value" id="statCorrect">0</div>
+      <div class="colo-label">Correct</div>
+    </div>
+    <div class="colo-stat">
+      <div class="colo-value" id="statErrors">0</div>
+      <div class="colo-label">Errors</div>
+    </div>
+    <div class="colo-stat">
+      <div class="colo-value" id="statAccuracy">0<span class="pct">%</span></div>
+      <div class="colo-label">Accuracy</div>
+    </div>
+    <div class="colo-stat">
+      <div class="colo-value" id="statSessions">0</div>
+      <div class="colo-label">Sessions</div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ============================================================================
+// MATN: Al-Ājurrūmiyyah
+// ============================================================================
+
+const ARABIC_DIGITS = ['٠','١','٢','٣','٤','٥','٦','٧','٨','٩'];
+function toArabicNum(n) {
+  return String(n).split('').map(d => ARABIC_DIGITS[+d] ?? d).join('');
+}
+
+const MATN = {
+  bookTitle: "المُقَدِّمَةُ الآجُرُّومِيَّةُ",
+  chapters: [
+    {
+      id: "kalam",
+      titleAr: "بَابُ الْكَلَامِ",
+      titleEn: "Chapter on Speech",
+      page: 3,
+      paragraphs: [
+        { topic: "الْكَلَامُ", rest: "هُوَ اللَّفْظُ الْمُرَكَّبُ الْمُفِيدُ بِالْوَضْعِ" },
+        { topic: "وَأَقْسَامُهُ ثَلَاثَةٌ", rest: "اسْمٌ وَفِعْلٌ وَحَرْفٌ جَاءَ لِمَعْنًى" },
+        { topic: "فَالِاسْمُ يُعْرَفُ", rest: "بِالْخَفْضِ وَالتَّنْوِينِ وَدُخُولِ الْأَلِفِ وَاللَّامِ" },
+        { topic: "وَحُرُوفِ الْخَفْضِ وَهِيَ", rest: "مِنْ وَإِلَى وَعَنْ وَعَلَى وَفِي وَرُبَّ وَالْبَاءُ وَالْكَافُ وَاللَّامُ" },
+        { topic: "وَحُرُوفِ الْقَسَمِ وَهِيَ", rest: "الْوَاوُ وَالْبَاءُ وَالتَّاءُ" },
+        { topic: "وَالْفِعْلُ يُعْرَفُ", rest: "بِقَدْ وَالسِّينِ وَسَوْفَ وَتَاءِ التَّأْنِيثِ السَّاكِنَةِ" },
+        { topic: "وَالْحَرْفُ", rest: "مَا لَا يَصْلُحُ مَعَهُ دَلِيلُ الِاسْمِ وَلَا دَلِيلُ الْفِعْلِ" }
+      ]
+    },
+    {
+      id: "irab",
+      titleAr: "بَابُ الْإِعْرَابِ",
+      titleEn: "Chapter on I'rāb",
+      page: 5,
+      paragraphs: [
+        { topic: "الْإِعْرَابُ", rest: "هُوَ تَغْيِيرُ أَوَاخِرِ الْكَلِمِ لِاخْتِلَافِ الْعَوَامِلِ الدَّاخِلَةِ عَلَيْهَا لَفْظًا أَوْ تَقْدِيرًا" },
+        { topic: "وَأَقْسَامُهُ أَرْبَعَةٌ", rest: "رَفْعٌ وَنَصْبٌ وَخَفْضٌ وَجَزْمٌ" },
+        { topic: "فَلِلْأَسْمَاءِ مِنْ ذَلِكَ", rest: "الرَّفْعُ وَالنَّصْبُ وَالْخَفْضُ وَلَا جَزْمَ فِيهَا" },
+        { topic: "وَلِلْأَفْعَالِ مِنْ ذَلِكَ", rest: "الرَّفْعُ وَالنَّصْبُ وَالْجَزْمُ وَلَا خَفْضَ فِيهَا" }
+      ]
+    },
+    {
+      id: "alamat",
+      titleAr: "بَابُ مَعْرِفَةِ عَلَامَاتِ الْإِعْرَابِ",
+      titleEn: "Chapter on the Signs of I'rāb",
+      page: 7,
+      paragraphs: [
+        { topic: "لِلرَّفْعِ أَرْبَعُ عَلَامَاتٍ", rest: "الضَّمَّةُ وَالْوَاوُ وَالْأَلِفُ وَالنُّونُ" },
+        { topic: "فَأَمَّا الضَّمَّةُ", rest: "فَتَكُونُ عَلَامَةً لِلرَّفْعِ فِي أَرْبَعَةِ مَوَاضِعَ فِي الِاسْمِ الْمُفْرَدِ وَجَمْعِ التَّكْسِيرِ وَجَمْعِ الْمُؤَنَّثِ السَّالِمِ وَالْفِعْلِ الْمُضَارِعِ الَّذِي لَمْ يَتَّصِلْ بِآخِرِهِ شَيْءٌ" },
+        { topic: "وَأَمَّا الْوَاوُ", rest: "فَتَكُونُ عَلَامَةً لِلرَّفْعِ فِي مَوْضِعَيْنِ فِي جَمْعِ الْمُذَكَّرِ السَّالِمِ وَفِي الْأَسْمَاءِ الْخَمْسَةِ" },
+        { topic: "وَهِيَ", rest: "أَبُوكَ وَأَخُوكَ وَحَمُوكَ وَفُوكَ وَذُو مَالٍ" }
+      ]
+    }
+  ]
+};
+
+// ============================================================================
+// ARABIC NORMALIZATION & FUZZY MATCHING (same as before)
+// ============================================================================
+
+const TASHKIL_REGEX = /[\u064B-\u0652\u0670\u0640\u06D6-\u06ED]/g;
+const PUNCT_REGEX = /[.,،؛:؟!()«»""'']/g;
+
+function stripTashkil(s) { return s.replace(TASHKIL_REGEX, ''); }
+
+function normalize(word) {
+  let w = stripTashkil(word);
+  w = w.replace(PUNCT_REGEX, '');
+  w = w.replace(/[إأآٱ]/g, 'ا');
+  w = w.replace(/ى/g, 'ي');
+  w = w.replace(/ة/g, 'ه');
+  w = w.replace(/ـ/g, '');
+  return w.trim();
+}
+
+function levenshtein(a, b) {
+  if (a === b) return 0;
+  if (!a.length) return b.length;
+  if (!b.length) return a.length;
+  let prev = new Array(b.length + 1);
+  let curr = new Array(b.length + 1);
+  for (let j = 0; j <= b.length; j++) prev[j] = j;
+  for (let i = 1; i <= a.length; i++) {
+    curr[0] = i;
+    for (let j = 1; j <= b.length; j++) {
+      const cost = a[i - 1] === b[j - 1] ? 0 : 1;
+      curr[j] = Math.min(curr[j - 1] + 1, prev[j] + 1, prev[j - 1] + cost);
+    }
+    [prev, curr] = [curr, prev];
+  }
+  return prev[b.length];
+}
+
+function similarity(a, b) {
+  if (!a && !b) return 1;
+  const m = Math.max(a.length, b.length);
+  return m === 0 ? 1 : 1 - (levenshtein(a, b) / m);
+}
+
+function tokenizeChapter(chapter) {
+  return chapter.paragraphs.map((para, pIdx) => {
+    const topicWords = para.topic.trim().split(/\s+/).filter(Boolean);
+    const restWords = para.rest.trim().split(/\s+/).filter(Boolean);
+    const tokens = [];
+    topicWords.forEach((w) => { tokens.push({ surface: w, base: normalize(w), paraIdx: pIdx, tokenIdx: tokens.length, isTopic: true, state: 'pending', attempts: 0 }); });
+    restWords.forEach((w) => { tokens.push({ surface: w, base: normalize(w), paraIdx: pIdx, tokenIdx: tokens.length, isTopic: false, state: 'pending', attempts: 0 }); });
+    return tokens;
+  });
+}
+
+// ============================================================================
+// APP STATE
+// ============================================================================
+
+const state = {
+  chapterIdx: 0,
+  mode: 'sakin',
+  paragraphs: [],
+  currentPara: 0,
+  currentToken: 0,
+  isRecording: false,
+  ws: null,
+  wsConnected: false,
+  modelReady: false,
+  audioCtx: null,
+  micStream: null,
+  workletNode: null,
+  useBrowserFallback: false,
+  browserRec: null,
+  stats: { correct: 0, soft: 0, hard: 0, skipped: 0 },
+  stumbles: new Map(),
+  sessionsCompleted: 0,
+  lastLatencyMs: null,
+};
+
+const $ = (id) => document.getElementById(id);
+const els = {
+  chapterSelect: $('chapterSelect'),
+  chapterBab: $('chapterBab'),
+  chapterEn: $('chapterEn'),
+  pageNum: $('pageNum'),
+  matnBody: $('matnBody'),
+  matnContainer: $('matnContainer'),
+  micBtn: $('micBtn'),
+  resetBtn: $('resetBtn'),
+  finishBtn: $('finishBtn'),
+  status: $('status'),
+  interim: $('interimDisplay'),
+  statCorrect: $('statCorrect'),
+  statErrors: $('statErrors'),
+  statAccuracy: $('statAccuracy'),
+  statSessions: $('statSessions'),
+  browserWarn: $('browserWarn'),
+  aiBadge: $('aiBadge'),
+  aiBadgeText: $('aiBadgeText'),
+};
+
+// ============================================================================
+// RENDER
+// ============================================================================
+
+function renderChapter() {
+  const ch = MATN.chapters[state.chapterIdx];
+  els.chapterBab.textContent = ch.titleAr;
+  els.chapterEn.textContent = ch.titleEn;
+  els.pageNum.textContent = toArabicNum(ch.page);
+  state.paragraphs = tokenizeChapter(ch);
+  state.currentPara = 0;
+  state.currentToken = 0;
+  renderMatn();
+  updateExpected();
+}
+
+function renderMatn() {
+  const html = state.paragraphs.map((tokens, pIdx) => {
+    const cls = ['paragraph'];
+    if (pIdx < state.currentPara) cls.push('is-past');
+    if (pIdx === state.currentPara) cls.push('is-current');
+    const tokensHtml = tokens.map((t) => {
+      const tclass = ['token'];
+      if (t.state && t.state !== 'pending') tclass.push(t.state);
+      if (t.isTopic) tclass.push('topic-word');
+      return `<span class="${tclass.join(' ')}" data-p="${t.paraIdx}" data-t="${t.tokenIdx}">${t.surface}</span>`;
+    }).join(' ');
+    return `<p class="${cls.join(' ')}">${tokensHtml}</p>`;
+  }).join('');
+  els.matnBody.innerHTML = html;
+}
+
+function updateExpected() {
+  els.matnBody.querySelectorAll('.token.expected').forEach(el => el.classList.remove('expected'));
+  if (state.currentPara >= state.paragraphs.length) return;
+  const para = state.paragraphs[state.currentPara];
+  if (!para || state.currentToken >= para.length) return;
+  const expected = para[state.currentToken];
+  if (expected.state === 'pending') expected.state = 'expected';
+  const sel = `.token[data-p="${state.currentPara}"][data-t="${state.currentToken}"]`;
+  const el = els.matnBody.querySelector(sel);
+  if (el) {
+    el.classList.add('expected');
+    const rect = el.getBoundingClientRect();
+    const cont = els.matnContainer.getBoundingClientRect();
+    if (rect.top < cont.top + 80 || rect.bottom > cont.bottom - 60) {
+      el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  }
+}
+
+function setTokenState(paraIdx, tokenIdx, newState) {
+  const t = state.paragraphs[paraIdx]?.[tokenIdx];
+  if (!t) return;
+  t.state = newState;
+  const el = els.matnBody.querySelector(`.token[data-p="${paraIdx}"][data-t="${tokenIdx}"]`);
+  if (el) {
+    const classes = ['token'];
+    if (newState && newState !== 'pending') classes.push(newState);
+    if (t.isTopic) classes.push('topic-word');
+    el.className = classes.join(' ');
+  }
+}
+
+function updateStats() {
+  els.statCorrect.textContent = state.stats.correct;
+  const errors = state.stats.soft + state.stats.hard + state.stats.skipped;
+  els.statErrors.textContent = errors;
+  const total = state.stats.correct + errors;
+  const acc = total === 0 ? 0 : Math.round((state.stats.correct / total) * 100);
+  els.statAccuracy.innerHTML = `${acc}<span class="pct">%</span>`;
+  els.statSessions.textContent = state.sessionsCompleted;
+}
+
+// ============================================================================
+// MATCHING (same logic as before — runs against the AI's transcripts)
+// ============================================================================
+
+const MATCH_GOOD = 0.85;
+const MATCH_SOFT = 0.55;
+const LOOKAHEAD = 2;
+
+function processHeardWord(rawHeard) {
+  const heard = normalize(rawHeard);
+  if (!heard) return;
+  if (state.currentPara >= state.paragraphs.length) return;
+
+  const para = state.paragraphs[state.currentPara];
+  if (!para || state.currentToken >= para.length) {
+    advanceParagraph();
+    return processHeardWord(rawHeard);
+  }
+
+  const expected = para[state.currentToken];
+  const expSim = similarity(heard, expected.base);
+
+  if (expSim >= MATCH_GOOD) {
+    setTokenState(expected.paraIdx, expected.tokenIdx, 'correct');
+    state.stats.correct++;
+    advanceToken();
+    updateStats();
+    return;
+  }
+
+  if (expSim >= MATCH_SOFT) {
+    setTokenState(expected.paraIdx, expected.tokenIdx, 'soft-error');
+    state.stats.soft++;
+    bumpStumble(expected.surface);
+    advanceToken();
+    updateStats();
+    return;
+  }
+
+  for (let look = 1; look <= LOOKAHEAD; look++) {
+    const ahead = para[state.currentToken + look];
+    if (!ahead) break;
+    if (similarity(heard, ahead.base) >= MATCH_GOOD) {
+      for (let s = 0; s < look; s++) {
+        const sk = para[state.currentToken + s];
+        setTokenState(sk.paraIdx, sk.tokenIdx, 'skipped');
+        state.stats.skipped++;
+        bumpStumble(sk.surface);
+      }
+      setTokenState(ahead.paraIdx, ahead.tokenIdx, 'correct');
+      state.stats.correct++;
+      state.currentToken = state.currentToken + look + 1;
+      checkParaAdvance();
+      updateExpected();
+      updateStats();
+      return;
+    }
+  }
+
+  setTokenState(expected.paraIdx, expected.tokenIdx, 'hard-error');
+  state.stats.hard++;
+  bumpStumble(expected.surface);
+  expected.attempts = (expected.attempts || 0) + 1;
+  if (expected.attempts >= 3) advanceToken();
+  else updateExpected();
+  updateStats();
+}
+
+function advanceToken() { state.currentToken++; checkParaAdvance(); updateExpected(); }
+function checkParaAdvance() {
+  const para = state.paragraphs[state.currentPara];
+  if (para && state.currentToken >= para.length) advanceParagraph();
+}
+function advanceParagraph() {
+  state.currentPara++;
+  state.currentToken = 0;
+  if (state.currentPara >= state.paragraphs.length) onChapterComplete();
+  else { renderMatn(); updateExpected(); }
+}
+function bumpStumble(word) { state.stumbles.set(word, (state.stumbles.get(word) || 0) + 1); }
+
+// ============================================================================
+// WEBSOCKET TO AI BACKEND
+// ============================================================================
+
+function setBadge(text, online) {
+  els.aiBadgeText.textContent = text;
+  if (online) els.aiBadge.classList.remove('offline');
+  else els.aiBadge.classList.add('offline');
+}
+
+function connectWS() {
+  // Skip the AI server attempt entirely if we're opened as a file:// URL — the
+  // server can't possibly be running and trying makes a noisy WS error in the console.
+  if (location.protocol === 'file:') {
+    fallbackToBrowserMode('No AI server (running as a local file)');
+    return;
+  }
+
+  const wsProto = location.protocol === 'https:' ? 'wss' : 'ws';
+  const wsUrl = `${wsProto}://${location.host}/ws/recite`;
+  setBadge('Connecting…', false);
+  els.status.textContent = 'Looking for AI server…';
+
+  let settled = false;
+  // If the server isn't reachable within 1.5s, fall back gracefully.
+  const fallbackTimer = setTimeout(() => {
+    if (settled) return;
+    settled = true;
+    try { if (state.ws) state.ws.close(); } catch (e) {}
+    fallbackToBrowserMode('AI server not running');
+  }, 1500);
+
+  try {
+    state.ws = new WebSocket(wsUrl);
+  } catch (e) {
+    clearTimeout(fallbackTimer);
+    if (!settled) { settled = true; fallbackToBrowserMode('Could not reach AI server'); }
+    return;
+  }
+
+  state.ws.onopen = () => {
+    if (settled) return;
+    settled = true;
+    clearTimeout(fallbackTimer);
+    state.wsConnected = true;
+    state.useBrowserFallback = false;
+    setBadge('Loading model…', true);
+    els.status.textContent = 'Connected · waiting for AI model…';
+  };
+
+  state.ws.onmessage = (event) => {
+    let msg;
+    try { msg = JSON.parse(event.data); }
+    catch (e) { return; }
+
+    if (msg.type === 'info') {
+      if (msg.msg === 'ready') {
+        state.modelReady = true;
+        const modelLabel = msg.model || 'ctc';
+        setBadge(`AI · ${modelLabel.split('/').pop()}`, true);
+        els.status.textContent = 'Ready · tap to begin recitation';
+        els.micBtn.disabled = false;
+      } else {
+        els.status.textContent = msg.msg;
+      }
+      return;
+    }
+
+    // NEW PROTOCOL: server emits discrete word events.
+    if (msg.type === 'word') {
+      const text = (msg.text || '').trim();
+      if (!text) return;
+      state.lastLatencyMs = msg.latency_ms;
+      processHeardWord(text);
+      els.interim.textContent = '';
+      return;
+    }
+
+    if (msg.type === 'partial') {
+      const text = (msg.text || '').trim();
+      els.interim.textContent = text;
+      return;
+    }
+
+    if (msg.type === 'error') {
+      showBrowserWarning(`AI error: ${msg.msg}`);
+      return;
+    }
+  };
+
+  state.ws.onclose = () => {
+    if (!settled) {
+      settled = true;
+      clearTimeout(fallbackTimer);
+      fallbackToBrowserMode('AI server unreachable');
+      return;
+    }
+    // Already settled — this is a disconnection after we'd been connected.
+    if (state.useBrowserFallback) return;
+    state.wsConnected = false;
+    state.modelReady = false;
+    setBadge('Offline', false);
+    els.status.textContent = 'Disconnected. Reconnecting…';
+    els.micBtn.disabled = true;
+    if (state.isRecording) stopRecording();
+    setTimeout(connectWS, 2000);
+  };
+
+  state.ws.onerror = () => {
+    // Swallow — onclose will handle the state transition. Don't log to console
+    // since the user expects this to fail when running standalone.
+  };
+}
+
+// ============================================================================
+// BROWSER FALLBACK: use the Web Speech API when no AI server is running.
+// Same matn, same matching logic — only the audio source changes.
+// ============================================================================
+
+function getSR() { return window.SpeechRecognition || window.webkitSpeechRecognition; }
+
+function fallbackToBrowserMode(reason) {
+  state.useBrowserFallback = true;
+  state.wsConnected = false;
+  // Close the (failed) WebSocket cleanly.
+  if (state.ws) {
+    try { state.ws.onclose = null; state.ws.close(); } catch (e) {}
+    state.ws = null;
+  }
+
+  if (!getSR()) {
+    setBadge('No speech engine', false);
+    els.status.textContent = 'Speech recognition unavailable. Use Chrome or Safari, or run the AI server.';
+    els.micBtn.disabled = true;
+    showBrowserWarning("This browser doesn't support speech recognition. Try Chrome or Safari, or run the included Python AI server for offline recognition.");
+    return;
+  }
+
+  state.modelReady = true; // good enough to enable the mic
+  setBadge('Browser mode', true);
+  els.aiBadge.classList.add('offline'); // amber pulse to distinguish from real AI
+  els.status.textContent = `${reason} · using browser speech recognition · tap to begin`;
+  els.micBtn.disabled = false;
+}
+
+// Diagnostic display. The user can read this and see exactly what went wrong
+// — no need to open DevTools.
+function showDiagnostic(title, details, actionLabel, actionFn) {
+  const overlay = document.createElement('div');
+  overlay.className = 'overlay';
+  overlay.innerHTML = `
+    <div class="modal" style="max-width:520px;">
+      <button class="modal-close" aria-label="Close">×</button>
+      <h2 style="color:var(--crimson);">${title}</h2>
+      <div style="font-family:'Cormorant Garamond',serif;font-size:14px;color:var(--ink-soft);line-height:1.6;margin:18px 0;text-align:left;direction:ltr;">${details}</div>
+      ${actionLabel ? `<button class="modal-btn" id="diagAction">${actionLabel}</button>` : ''}
+      <button class="modal-btn outline" id="diagClose">Dismiss</button>
+    </div>`;
+  document.body.appendChild(overlay);
+  const close = () => overlay.remove();
+  overlay.querySelector('.modal-close').onclick = close;
+  overlay.querySelector('#diagClose').onclick = close;
+  if (actionLabel && actionFn) {
+    overlay.querySelector('#diagAction').onclick = () => { close(); actionFn(); };
+  }
+  overlay.addEventListener('click', (e) => { if (e.target === overlay) close(); });
+}
+
+async function probeMicPermission() {
+  // Returns one of: 'granted' | 'prompt' | 'denied' | 'unknown'
+  // The Permissions API is the only reliable way to check the *actual* state
+  // before requesting. Safari/older Chrome may not support it.
+  if (!navigator.permissions || !navigator.permissions.query) return 'unknown';
+  try {
+    const result = await navigator.permissions.query({ name: 'microphone' });
+    return result.state;
+  } catch (e) {
+    return 'unknown';
+  }
+}
+
+async function startBrowserRecording() {
+  const SR = getSR();
+  if (!SR) {
+    showDiagnostic(
+      "Speech recognition not available",
+      "This browser doesn't expose the Web Speech API. <br><br>" +
+      "<strong>Fix:</strong> Use Google Chrome (not Chromium forks like Brave or Arc) on macOS, Windows, or Android. On iOS, use Safari 14.5+.",
+      null, null
+    );
+    return;
+  }
+
+  // Step 1: Probe permission state up front
+  const permState = await probeMicPermission();
+
+  if (permState === 'denied') {
+    showDiagnostic(
+      "Microphone is blocked for this page",
+      "Chrome's site setting for microphone is set to <strong>Block</strong> for this page.<br><br>" +
+      "<strong>Fix:</strong><br>" +
+      "1. Click the <strong>🔒 lock icon</strong> (or 🎚 sliders icon) at the left of the URL bar.<br>" +
+      "2. Find <strong>Microphone</strong> and change it from Block to <strong>Allow</strong>.<br>" +
+      "3. Refresh this page.<br><br>" +
+      "If the lock icon doesn't show Microphone: go to chrome://settings/content/microphone and remove this site from the Block list.",
+      "Refresh page", () => location.reload()
+    );
+    return;
+  }
+
+  // Step 2: Try getUserMedia. This is where we'll catch every OS-level
+  // and browser-level failure with a specific message.
+  let stream;
+  try {
+    els.status.textContent = 'Requesting microphone permission…';
+    stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+  } catch (err) {
+    const name = err && err.name ? err.name : 'UnknownError';
+    const msg = err && err.message ? err.message : String(err);
+
+    if (name === 'NotAllowedError' || name === 'PermissionDeniedError') {
+      // This is the most confusing case: the user clicked Allow, but
+      // getUserMedia still rejected. Almost always macOS Privacy settings.
+      const isMac = /Mac|iPhone|iPad/.test(navigator.platform);
+      showDiagnostic(
+        "Microphone blocked at the OS level",
+        (isMac
+          ? "Even though you clicked Allow in the browser, macOS itself hasn't given Chrome permission to use the microphone.<br><br>" +
+            "<strong>Fix this in 4 steps:</strong><br>" +
+            "1. Open <strong>System Settings</strong> (Apple menu → System Settings).<br>" +
+            "2. Go to <strong>Privacy & Security → Microphone</strong>.<br>" +
+            "3. Find <strong>Google Chrome</strong> in the list and turn its toggle <strong>ON</strong>. (If Chrome isn't in the list, that's why it's failing — toggle for it appears after the first request.)<br>" +
+            "4. <strong>Fully quit Chrome</strong> (Cmd+Q, not just close the window) and reopen this page.<br><br>" +
+            "If Chrome is already on at the OS level, the page-level setting may be blocked: click the 🔒 in the URL bar, set Microphone to Allow, and refresh."
+          : "The microphone request was denied.<br><br>" +
+            "<strong>Fix:</strong><br>" +
+            "1. Click the 🔒 lock icon in the URL bar.<br>" +
+            "2. Set Microphone to <strong>Allow</strong>.<br>" +
+            "3. Refresh this page.<br><br>" +
+            "Also check OS-level settings: on Windows, Settings → Privacy → Microphone → ensure Chrome can access it."
+        ),
+        "Refresh page", () => location.reload()
+      );
+    } else if (name === 'NotFoundError' || name === 'DevicesNotFoundError') {
+      showDiagnostic(
+        "No microphone found",
+        "Your browser can't detect a microphone.<br><br>" +
+        "<strong>Fix:</strong> Plug in a microphone, or in System Settings → Sound → Input, check that your mic is selected and the level meter responds when you speak.",
+        null, null
+      );
+    } else if (name === 'NotReadableError' || name === 'TrackStartError') {
+      showDiagnostic(
+        "Microphone is in use by another app",
+        "Something else is currently using your microphone (Zoom, Google Meet, FaceTime, voice memos, etc.).<br><br>" +
+        "<strong>Fix:</strong> Quit the other app, then come back and try again.",
+        null, null
+      );
+    } else if (name === 'SecurityError') {
+      const onFile = location.protocol === 'file:';
+      showDiagnostic(
+        "Browser security blocked the microphone",
+        onFile
+          ? "You're opening this file directly (the URL starts with <code>file://</code>). Browsers don't allow mic access from <code>file://</code> URLs.<br><br>" +
+            "<strong>Fix (one of):</strong><br>" +
+            "• Run the included Python AI server (then open <code>http://localhost:8000</code>).<br>" +
+            "• Or in Terminal: <code>cd</code> to where this file is, run <code>python3 -m http.server 8000</code>, then open <code>http://localhost:8000/mutoon-ai-client.html</code>.<br>" +
+            "<code>localhost</code> counts as a secure context, so mic permission works there."
+          : "Microphones need a secure context (HTTPS or localhost). Reload the page through HTTPS or localhost.",
+        null, null
+      );
+    } else if (name === 'AbortError') {
+      showDiagnostic(
+        "Microphone request interrupted",
+        "Something interrupted the permission dialog. Tap the mic again to retry.",
+        null, null
+      );
+    } else {
+      showDiagnostic(
+        "Microphone error",
+        `Unexpected error: <code>${name}</code><br><br><em>${msg}</em><br><br>If you're on a Chromium fork (Brave/Arc/Edge), try Google Chrome — Brave especially blocks the speech endpoint.`,
+        null, null
+      );
+    }
+    els.status.textContent = 'Tap to try again';
+    return;
+  }
+
+  // Step 3: Release the mic stream — the speech recognizer will reacquire it.
+  stream.getTracks().forEach(t => t.stop());
+
+  // Step 4: Construct and start the recognizer.
+  try {
+    state.browserRec = new SR();
+  } catch (e) {
+    showDiagnostic(
+      "Couldn't start speech recognition",
+      `<code>${e.message || e}</code>`,
+      null, null
+    );
+    return;
+  }
+
+  state.browserRec.lang = 'ar-SA';
+  state.browserRec.continuous = true;
+  state.browserRec.interimResults = true;
+  state.browserRec.maxAlternatives = 1;
+
+  let lastProcessedTranscript = '';
+
+  state.browserRec.onstart = () => {
+    state.isRecording = true;
+    els.micBtn.classList.add('recording');
+    els.status.textContent = 'Listening · ابدأ التلاوة';
+    if (els.browserWarn) els.browserWarn.style.display = 'none';
+  };
+
+  state.browserRec.onresult = (event) => {
+    let interim = '';
+    for (let i = event.resultIndex; i < event.results.length; i++) {
+      const result = event.results[i];
+      const transcript = result[0].transcript;
+      if (result.isFinal) {
+        const words = transcript.trim().split(/\s+/).filter(Boolean);
+        for (const w of words) processHeardWord(w);
+        els.interim.textContent = '';
+        lastProcessedTranscript = '';
+      } else {
+        interim += transcript;
+      }
+    }
+    if (interim) {
+      const curWords = interim.trim().split(/\s+/);
+      const prevWords = lastProcessedTranscript.trim().split(/\s+/);
+      let i = 0;
+      while (i < curWords.length - 1 && i < prevWords.length && normalize(curWords[i]) === normalize(prevWords[i])) i++;
+      const newCommitted = curWords.slice(i, curWords.length - 1);
+      for (const w of newCommitted) processHeardWord(w);
+      lastProcessedTranscript = interim;
+      els.interim.textContent = curWords[curWords.length - 1] || '';
+    }
+  };
+
+  state.browserRec.onerror = (event) => {
+    const e = event.error;
+    if (e === 'no-speech' || e === 'aborted') return;
+
+    if (e === 'not-allowed' || e === 'service-not-allowed') {
+      // This shouldn't happen now that getUserMedia succeeded above. If it does,
+      // the speech *service* (not the mic) is blocked — typical on non-Google
+      // Chromium browsers (Brave, Arc).
+      showDiagnostic(
+        "Speech recognition service blocked",
+        "Your microphone works, but the browser's speech-recognition service is blocked.<br><br>" +
+        "This usually means you're on a Chromium fork that disables Google's speech endpoint (Brave, Arc, Vivaldi, sometimes Edge).<br><br>" +
+        "<strong>Fix:</strong> Open this page in <strong>Google Chrome</strong>. The Arabic speech recognizer needs Google's speech endpoint, which only ships in Chrome itself.",
+        null, null
+      );
+      stopBrowserRecording();
+      return;
+    }
+    if (e === 'network') {
+      els.status.textContent = 'Network needed · check connection';
+      return;
+    }
+    if (e === 'language-not-supported') {
+      showDiagnostic(
+        "Arabic not supported",
+        "Your browser doesn't support Arabic (ar-SA) speech recognition.<br><br>Try Google Chrome.",
+        null, null
+      );
+      stopBrowserRecording();
+      return;
+    }
+    els.status.textContent = `Speech error: ${e}`;
+  };
+
+  state.browserRec.onend = () => {
+    if (state.isRecording) {
+      setTimeout(() => {
+        if (!state.isRecording) return;
+        try { state.browserRec.start(); }
+        catch (e) {
+          state.isRecording = false;
+          els.micBtn.classList.remove('recording');
+          els.status.textContent = 'Tap to resume';
+        }
+      }, 150);
+    } else {
+      els.micBtn.classList.remove('recording');
+    }
+  };
+
+  try {
+    state.browserRec.start();
+  } catch (e) {
+    // start() throws if it's already running. Reset state to allow retry.
+    state.isRecording = false;
+    els.micBtn.classList.remove('recording');
+    els.status.textContent = 'Tap to try again';
+  }
+}
+
+function stopBrowserRecording() {
+  state.isRecording = false;
+  els.micBtn.classList.remove('recording');
+  els.status.textContent = 'Paused · tap to resume';
+  els.interim.textContent = '';
+  if (state.browserRec) {
+    try { state.browserRec.stop(); } catch (e) {}
+  }
+}
+
+// ============================================================================
+// AUDIO CAPTURE — Web Audio API → float32 PCM → WebSocket
+// ============================================================================
+
+const AUDIO_WORKLET_CODE = `
+class PCMSender extends AudioWorkletProcessor {
+  constructor() {
+    super();
+    this.targetSampleRate = 16000;
+    this.sourceSampleRate = sampleRate;
+    this.ratio = this.sourceSampleRate / this.targetSampleRate;
+    // Batch into ~200ms chunks at 16kHz = 3200 samples
+    this.chunkSize = 3200;
+    this.batch = new Float32Array(this.chunkSize);
+    this.batchPos = 0;
+  }
+
+  // Linear-interpolation downsampler. CTC ASR expects 16kHz mono.
+  resample(input) {
+    if (this.ratio === 1) return input;
+    const outputLength = Math.floor(input.length / this.ratio);
+    const output = new Float32Array(outputLength);
+    for (let i = 0; i < outputLength; i++) {
+      const srcIdx = i * this.ratio;
+      const idx = Math.floor(srcIdx);
+      const frac = srcIdx - idx;
+      const a = input[idx] || 0;
+      const b = input[idx + 1] || a;
+      output[i] = a + (b - a) * frac;
+    }
+    return output;
+  }
+
+  process(inputs) {
+    const input = inputs[0];
+    if (!input || input.length === 0) return true;
+    const channel = input[0];
+    if (!channel) return true;
+    const resampled = this.resample(channel);
+    // Accumulate into the 200ms batch; flush when full.
+    for (let i = 0; i < resampled.length; i++) {
+      this.batch[this.batchPos++] = resampled[i];
+      if (this.batchPos >= this.chunkSize) {
+        // Copy out (cannot transfer the active buffer)
+        const out = new Float32Array(this.batch);
+        this.port.postMessage(out);
+        this.batchPos = 0;
+      }
+    }
+    return true;
+  }
+}
+registerProcessor('pcm-sender', PCMSender);
+`;
+
+async function startRecording() {
+  if (state.useBrowserFallback) {
+    return startBrowserRecording();
+  }
+  if (!state.modelReady || !state.wsConnected) {
+    showBrowserWarning('AI server not ready yet. Please wait.');
+    return;
+  }
+  if (state.isRecording) return;
+
+  els.status.textContent = 'Requesting microphone…';
+
+  try {
+    state.micStream = await navigator.mediaDevices.getUserMedia({
+      audio: {
+        channelCount: 1,
+        sampleRate: 16000,
+        echoCancellation: true,
+        noiseSuppression: true,
+        autoGainControl: true,
+      }
+    });
+  } catch (err) {
+    showBrowserWarning(explainMicError(err));
+    els.status.textContent = 'Tap to try again';
+    return;
+  }
+
+  // Set up Web Audio pipeline
+  const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+  state.audioCtx = new AudioContextClass();
+
+  // Load AudioWorklet from inline blob (no separate file needed)
+  const blob = new Blob([AUDIO_WORKLET_CODE], { type: 'application/javascript' });
+  const workletUrl = URL.createObjectURL(blob);
+  try {
+    await state.audioCtx.audioWorklet.addModule(workletUrl);
+  } catch (e) {
+    showBrowserWarning('Audio worklet not supported. Try Chrome or Safari 14.5+.');
+    cleanupAudio();
+    return;
+  } finally {
+    URL.revokeObjectURL(workletUrl);
+  }
+
+  const source = state.audioCtx.createMediaStreamSource(state.micStream);
+  state.workletNode = new AudioWorkletNode(state.audioCtx, 'pcm-sender');
+
+  state.workletNode.port.onmessage = (e) => {
+    const pcm = e.data; // Float32Array @ 16kHz
+    if (state.ws && state.ws.readyState === WebSocket.OPEN && state.isRecording) {
+      // Send raw bytes
+      state.ws.send(pcm.buffer);
+    }
+  };
+
+  source.connect(state.workletNode);
+  // Don't connect to destination — we're not playing it back
+
+  state.isRecording = true;
+  els.micBtn.classList.add('recording');
+  els.status.textContent = 'Listening · ابدأ التلاوة';
+  if (els.browserWarn) els.browserWarn.style.display = 'none';
+}
+
+function stopRecording() {
+  if (state.useBrowserFallback) {
+    return stopBrowserRecording();
+  }
+  state.isRecording = false;
+  els.micBtn.classList.remove('recording');
+  if (state.ws && state.ws.readyState === WebSocket.OPEN) {
+    state.ws.send(JSON.stringify({ type: 'stop' }));
+  }
+  cleanupAudio();
+  els.status.textContent = 'Paused · tap to resume';
+  els.interim.textContent = '';
+}
+
+function cleanupAudio() {
+  if (state.workletNode) {
+    try { state.workletNode.disconnect(); } catch (e) {}
+    state.workletNode = null;
+  }
+  if (state.audioCtx) {
+    try { state.audioCtx.close(); } catch (e) {}
+    state.audioCtx = null;
+  }
+  if (state.micStream) {
+    state.micStream.getTracks().forEach(t => t.stop());
+    state.micStream = null;
+  }
+}
+
+function explainMicError(err) {
+  const name = err && err.name ? err.name : '';
+  if (name === 'NotAllowedError' || name === 'PermissionDeniedError') return "Microphone access blocked. Click the lock icon in your browser's address bar, set Microphone to Allow, then reload.";
+  if (name === 'NotFoundError') return "No microphone detected.";
+  if (name === 'NotReadableError') return "Microphone is busy. Close other apps using it.";
+  if (name === 'SecurityError') return "Microphone needs HTTPS or localhost. Run via the included server.";
+  return `Microphone error: ${name || 'unknown'} (${err.message || err}).`;
+}
+
+// ============================================================================
+// SESSION CONTROLS
+// ============================================================================
+
+function onMicTap() {
+  if (state.isRecording) stopRecording();
+  else {
+    if (state.currentPara >= state.paragraphs.length) resetSession();
+    startRecording();
+  }
+}
+
+function resetSession() {
+  if (state.isRecording) stopRecording();
+  if (state.ws && state.ws.readyState === WebSocket.OPEN) {
+    state.ws.send(JSON.stringify({ type: 'reset' }));
+  }
+  state.stats = { correct: 0, soft: 0, hard: 0, skipped: 0 };
+  state.stumbles = new Map();
+  renderChapter();
+  updateStats();
+  els.status.textContent = state.modelReady ? 'Ready · tap to begin recitation' : 'Waiting for AI model…';
+  els.interim.textContent = '';
+}
+
+function onChapterComplete() {
+  if (state.isRecording) stopRecording();
+  state.sessionsCompleted++;
+  showSummary();
+}
+
+function showSummary() {
+  const total = state.stats.correct + state.stats.soft + state.stats.hard + state.stats.skipped;
+  const acc = total === 0 ? 0 : Math.round((state.stats.correct / total) * 100);
+  const stumbleArr = [...state.stumbles.entries()].sort((a, b) => b[1] - a[1]).slice(0, 3);
+
+  const stumbleHTML = stumbleArr.length === 0
+    ? '<p style="text-align:center;font-style:italic;color:var(--ink-faint);font-size:13px;margin-top:12px;">No major stumbles. Mā shā Allāh.</p>'
+    : `<div class="stumble-label">Words to revise</div>
+       <div class="stumble-list">${stumbleArr.map(([w, c]) => `
+         <div class="stumble-item">
+           <span class="stumble-word">${w}</span>
+           <span class="stumble-count">${c} ${c === 1 ? 'miss' : 'misses'}</span>
+         </div>`).join('')}</div>`;
+
+  const latencyHTML = state.lastLatencyMs
+    ? `<div style="text-align:center;font-size:11px;color:var(--ink-faint);font-family:'Cormorant Garamond',serif;letter-spacing:0.08em;margin-top:8px;">AI latency · ${state.lastLatencyMs}ms</div>`
+    : '';
+
+  const overlay = document.createElement('div');
+  overlay.className = 'overlay';
+  overlay.innerHTML = `
+    <div class="modal">
+      <button class="modal-close" aria-label="Close">×</button>
+      <h2>Session Complete</h2>
+      <div class="subtitle-ar">تَمَّ الْفَصْل</div>
+      <div class="modal-stats">
+        <div class="modal-stat green"><div class="modal-stat-value">${state.stats.correct}</div><div class="modal-stat-label">Correct</div></div>
+        <div class="modal-stat amber"><div class="modal-stat-value">${state.stats.soft}</div><div class="modal-stat-label">Soft</div></div>
+        <div class="modal-stat crimson"><div class="modal-stat-value">${state.stats.hard + state.stats.skipped}</div><div class="modal-stat-label">Hard</div></div>
+      </div>
+      <div class="modal-acc">Accuracy: <strong>${acc}%</strong></div>
+      ${latencyHTML}
+      ${stumbleHTML}
+      <button class="modal-btn" id="againBtn">Recite Again</button>
+      <button class="modal-btn outline" id="nextBtn">Next Chapter</button>
+      <div class="adab-note">This is a memorization aid. Seek <em>ijāzah</em> from a qualified shaykh for any matn you intend to teach or transmit.</div>
+    </div>`;
+  document.body.appendChild(overlay);
+
+  const close = () => overlay.remove();
+  overlay.querySelector('.modal-close').onclick = close;
+  overlay.querySelector('#againBtn').onclick = () => { close(); resetSession(); };
+  overlay.querySelector('#nextBtn').onclick = () => {
+    close();
+    if (state.chapterIdx < MATN.chapters.length - 1) {
+      state.chapterIdx++;
+      els.chapterSelect.value = state.chapterIdx;
+    }
+    resetSession();
+  };
+  overlay.addEventListener('click', (e) => { if (e.target === overlay) close(); });
+}
+
+// ============================================================================
+// INIT
+// ============================================================================
+
+function showBrowserWarning(msg) {
+  els.browserWarn.innerHTML = '';
+  const text = document.createElement('span');
+  text.textContent = msg;
+  const close = document.createElement('button');
+  close.textContent = '×';
+  close.style.cssText = 'background:none;border:none;color:inherit;font-size:18px;margin-left:12px;cursor:pointer;padding:0 4px;line-height:1;opacity:0.6;';
+  close.onclick = () => { els.browserWarn.style.display = 'none'; };
+  els.browserWarn.appendChild(text);
+  els.browserWarn.appendChild(close);
+  els.browserWarn.style.display = 'flex';
+}
+
+function init() {
+  els.chapterSelect.innerHTML = MATN.chapters.map((c, i) => `<option value="${i}">${c.titleEn}</option>`).join('');
+  els.chapterSelect.addEventListener('change', (e) => {
+    state.chapterIdx = parseInt(e.target.value, 10);
+    resetSession();
+  });
+
+  document.querySelectorAll('.mode-toggle button').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.mode-toggle button').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      state.mode = btn.dataset.mode;
+    });
+  });
+
+  els.micBtn.addEventListener('click', onMicTap);
+  els.resetBtn.addEventListener('click', resetSession);
+  els.finishBtn.addEventListener('click', () => {
+    const total = state.stats.correct + state.stats.soft + state.stats.hard + state.stats.skipped;
+    if (total > 0) onChapterComplete();
+  });
+
+  // Browser support check
+  if (!window.AudioContext && !window.webkitAudioContext) {
+    showBrowserWarning("Web Audio API not supported. Use a modern Chrome/Firefox/Safari.");
+    els.micBtn.disabled = true;
+    return;
+  }
+  if (!window.AudioWorkletNode) {
+    showBrowserWarning("AudioWorklet not supported. Update your browser.");
+    els.micBtn.disabled = true;
+    return;
+  }
+
+  renderChapter();
+  updateStats();
+  connectWS();
+}
+
+document.addEventListener('DOMContentLoaded', init);
+</script>
+
+</body>
+</html>
